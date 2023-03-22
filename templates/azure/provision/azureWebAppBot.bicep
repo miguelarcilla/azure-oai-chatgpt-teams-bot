@@ -3,7 +3,9 @@ param provisionParameters object
 param userAssignedIdentityId string
 
 var resourceBaseName = provisionParameters.resourceBaseName
-var openaiApiKey = provisionParameters.openaiApiKey
+var aoaiApiKey = provisionParameters.aoaiApiKey
+var aoaiApiBase = provisionParameters.aoaiApiBase
+var aoaiDeployModel = provisionParameters.aoaiDeployModel
 var serverfarmsName = contains(provisionParameters, 'webAppServerfarmsName') ? provisionParameters['webAppServerfarmsName'] : '${resourceBaseName}bot' // Try to read name for App Service Plan from parameters
 var webAppSKU = contains(provisionParameters, 'webAppSKU') ? provisionParameters['webAppSKU'] : 'B1' // Try to read SKU for Azure Web App from parameters
 var webAppName = contains(provisionParameters, 'webAppSitesName') ? provisionParameters['webAppSitesName'] : '${resourceBaseName}bot' // Try to read name for Azure Web App from parameters
@@ -44,8 +46,16 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
           value: '1'
         }
         {
-          name: 'OPENAI_API_KEY'
-          value: openaiApiKey
+          name: 'AOAI_API_KEY'
+          value: aoaiApiKey
+        }
+        {
+          name: 'AOAI_API_BASE'
+          value: aoaiApiBase
+        }
+        {
+          name: 'AOAI_DEPLOY_MODEL'
+          value: aoaiDeployModel
         }
       ]
     }
